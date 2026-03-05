@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japandi Color Theme</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --linen:       #E8E0D2;
+    --warm-sand:   #C9B99A;
+    --terracotta:  #B5674A;
+    --driftwood:   #8B6B4A;
+    --sage:        #6B7B65;
+    --charcoal:    #3C3831;
+    --parchment:   #F2EDE4;
+    --muted-clay:  #A87B5C;
+  }
+
+  body {
+    background: var(--parchment);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+  }
+
+  .wrapper {
+    max-width: 720px;
+    width: 100%;
+  }
+
+  header {
+    margin-bottom: 56px;
+  }
+
+  .label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--driftwood);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    color: var(--charcoal);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  .subtitle {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--driftwood);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+  }
+
+  /* Swatches */
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(60,56,49,0.10);
+    margin-bottom: 40px;
+  }
+
+  .swatch {
+    aspect-ratio: 3/4;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 14px 12px;
+    cursor: default;
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .swatch:hover { transform: scaleY(1.04); z-index: 2; }
+
+  .swatch-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+  }
+
+  .swatch-hex {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  /* light vs dark text */
+  .light-text .swatch-name,
+  .light-text .swatch-hex { color: var(--parchment); }
+  .dark-text .swatch-name,
+  .dark-text .swatch-hex  { color: var(--charcoal); }
+
+  /* Usage section */
+  .usage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .usage-card {
+    background: white;
+    border-radius: 4px;
+    padding: 24px 20px;
+    box-shadow: 0 2px 12px rgba(60,56,49,0.06);
+  }
+
+  .usage-card-title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm-sand);
+    margin-bottom: 16px;
+  }
+
+  .dot-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  }
+
+  .dot-label {
+    font-size: 12px;
+    color: var(--charcoal);
+    letter-spacing: 0.02em;
+  }
+
+  /* Typography specimen */
+  .specimen {
+    background: var(--charcoal);
+    border-radius: 4px;
+    padding: 36px 32px;
+    box-shadow: 0 8px 32px rgba(60,56,49,0.14);
+  }
+
+  .specimen-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--warm-sand);
+    margin-bottom: 12px;
+  }
+
+  .specimen-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 300;
+    color: var(--linen);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .specimen-heading span {
+    color: var(--terracotta);
+    font-style: italic;
+  }
+
+  .specimen-body {
+    font-size: 13px;
+    color: var(--warm-sand);
+    line-height: 1.75;
+    border-left: 2px solid var(--sage);
+    padding-left: 16px;
+  }
+
+  .token-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+
+  .token {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 2px;
+    cursor: default;
+  }
+
+  @media (max-width: 560px) {
+    .swatches { grid-template-columns: repeat(4, 1fr); }
+    .usage-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <p class="label">Extracted Color Theme</p>
+    <h1>Japandi <em>Wabi-sabi</em></h1>
+    <p class="subtitle">Natural materials · Quiet warmth · Organic imperfection</p>
+  </header>
+
+  <!-- Swatches -->
+  <div class="swatches">
+    <div class="swatch dark-text" style="background:#F2EDE4">
+      <div class="swatch-name">Parchment</div>
+      <div class="swatch-hex">#F2EDE4</div>
+    </div>
+    <div class="swatch dark-text" style="background:#E8E0D2">
+      <div class="swatch-name">Linen</div>
+      <div class="swatch-hex">#E8E0D2</div>
+    </div>
+    <div class="swatch dark-text" style="background:#C9B99A">
+      <div class="swatch-name">Warm Sand</div>
+      <div class="swatch-hex">#C9B99A</div>
+    </div>
+    <div class="swatch dark-text" style="background:#6B7B65">
+      <div class="swatch-name">Sage</div>
+      <div class="swatch-hex">#6B7B65</div>
+    </div>
+    <div class="swatch light-text" style="background:#A87B5C">
+      <div class="swatch-name">Muted Clay</div>
+      <div class="swatch-hex">#A87B5C</div>
+    </div>
+    <div class="swatch light-text" style="background:#8B6B4A">
+      <div class="swatch-name">Driftwood</div>
+      <div class="swatch-hex">#8B6B4A</div>
+    </div>
+    <div class="swatch light-text" style="background:#B5674A">
+      <div class="swatch-name">Terracotta</div>
+      <div class="swatch-hex">#B5674A</div>
+    </div>
+    <div class="swatch light-text" style="background:#3C3831">
+      <div class="swatch-name">Charcoal</div>
+      <div class="swatch-hex">#3C3831</div>
+    </div>
+  </div>
+
+  <!-- Usage -->
+  <div class="usage-grid">
+    <div class="usage-card">
+      <p class="usage-card-title">Neutrals — Backgrounds & Space</p>
+      <div class="dot-row"><div class="dot" style="background:#F2EDE4"></div><span class="dot-label">Parchment · Page base</span></div>
+      <div class="dot-row"><div class="dot" style="background:#E8E0D2"></div><span class="dot-label">Linen · Cards & panels</span></div>
+      <div class="dot-row"><div class="dot" style="background:#C9B99A"></div><span class="dot-label">Warm Sand · Borders & dividers</span></div>
+    </div>
+    <div class="usage-card">
+      <p class="usage-card-title">Accents — Warmth & Depth</p>
+      <div class="dot-row"><div class="dot" style="background:#B5674A"></div><span class="dot-label">Terracotta · CTAs & highlights</span></div>
+      <div class="dot-row"><div class="dot" style="background:#6B7B65"></div><span class="dot-label">Sage · Supporting accent</span></div>
+      <div class="dot-row"><div class="dot" style="background:#3C3831"></div><span class="dot-label">Charcoal · Headlines & text</span></div>
+    </div>
+  </div>
+
+  <!-- Live specimen -->
+  <div class="specimen">
+    <p class="specimen-eyebrow">Live Preview</p>
+    <h2 class="specimen-heading">The art of <span>stillness</span><br>in everyday objects</h2>
+    <p class="specimen-body">Japandi merges Japanese wabi-sabi with Scandinavian hygge — finding beauty in natural imperfection, honest materials, and purposeful simplicity.</p>
+    <div class="token-row">
+      <span class="token" style="background:#B5674A;color:#F2EDE4">Primary</span>
+      <span class="token" style="background:#6B7B65;color:#F2EDE4">Accent</span>
+      <span class="token" style="background:#C9B99A;color:#3C3831">Neutral</span>
+      <span class="token" style="background:#E8E0D2;color:#3C3831">Surface</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
