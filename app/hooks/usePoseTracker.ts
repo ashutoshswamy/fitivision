@@ -1675,7 +1675,6 @@ export const usePoseTracker = (
 
     const initMediaPipe = async () => {
       const poseModule = await import("@mediapipe/pose");
-      const cameraUtils = await import("@mediapipe/camera_utils");
 
       if (!mountedRef.current) return;
 
@@ -1696,23 +1695,23 @@ export const usePoseTracker = (
 
       poseRef.current.onResults(onResults);
 
-      cameraRef.current = new cameraUtils.Camera(videoElement, {
-        onFrame: async () => {
-          if (!mountedRef.current || !videoElement || !poseRef.current) return;
+      // Use requestAnimationFrame loop instead of @mediapipe/camera_utils Camera,
+      // which opens its own getUserMedia stream and conflicts with react-webcam on mobile.
+      let rafId: number;
+      const sendFrame = async () => {
+        if (!mountedRef.current || !poseRef.current) return;
+        if (videoElement.readyState >= 2) {
           try {
             await poseRef.current.send({ image: videoElement });
           } catch {
-            // Ignore errors from send() during teardown
+            // Ignore errors during teardown
           }
-        },
-        width: 1280,
-        height: 720,
-      });
-
-      cameraRef.current.start().then(() => {
-        if (mountedRef.current)
-          setState((prev) => ({ ...prev, isReady: true }));
-      });
+        }
+        rafId = requestAnimationFrame(sendFrame);
+      };
+      cameraRef.current = { stop: () => cancelAnimationFrame(rafId) };
+      rafId = requestAnimationFrame(sendFrame);
+      setState((prev) => ({ ...prev, isReady: true }));
     };
 
     initMediaPipe();
@@ -1721,6 +1720,8 @@ export const usePoseTracker = (
       mountedRef.current = false;
       cameraRef.current?.stop();
       poseRef.current?.close();
+      poseRef.current = null;
+      cameraRef.current = null;
     };
   }, [videoElement, onResults]);
 

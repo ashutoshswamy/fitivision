@@ -64,6 +64,29 @@ export async function getUserSessions(
   return data ?? [];
 }
 
+export async function deleteWorkoutSession(
+  sessionId: string,
+  userId: string,
+): Promise<void> {
+  // Delete exercises first (child rows), then the session
+  const { error: exError } = await supabase
+    .from("workout_exercises")
+    .delete()
+    .eq("session_id", sessionId)
+    .eq("user_id", userId);
+
+  if (exError)
+    throw new Error(`Failed to delete exercises: ${exError.message}`);
+
+  const { error } = await supabase
+    .from("workout_sessions")
+    .delete()
+    .eq("id", sessionId)
+    .eq("user_id", userId);
+
+  if (error) throw new Error(`Failed to delete session: ${error.message}`);
+}
+
 export async function getSessionCount(userId: string): Promise<number> {
   const { count, error } = await supabase
     .from("workout_sessions")

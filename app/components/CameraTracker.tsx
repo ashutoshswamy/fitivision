@@ -56,11 +56,15 @@ export const CameraTracker = ({
       <Webcam
         ref={webcamRef}
         onUserMedia={handleVideoLoad}
+        onUserMediaError={(err) => console.error("Camera access error:", err)}
         className="absolute w-full h-full object-cover"
         mirrored={false}
         audio={false}
+        playsInline
         videoConstraints={{
           facingMode: "user",
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
         }}
       />
 

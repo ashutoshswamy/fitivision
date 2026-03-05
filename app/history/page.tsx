@@ -18,6 +18,7 @@ import {
   ChevronUp,
   Activity,
   Flame,
+  Trash2,
 } from "lucide-react";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
@@ -87,6 +88,31 @@ export default function HistoryPage() {
   const [stats, setStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [expandedSession, setExpandedSession] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const handleDelete = async (sessionId: string) => {
+    if (deletingId) return;
+    setDeletingId(sessionId);
+    try {
+      const res = await fetch(`/api/workouts?session_id=${sessionId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setSessions((prev) => prev.filter((s) => s.id !== sessionId));
+        if (expandedSession === sessionId) setExpandedSession(null);
+        // Refresh stats
+        const statsRes = await fetch("/api/workouts?type=stats");
+        if (statsRes.ok) {
+          const data = await statsRes.json();
+          setStats(data.stats);
+        }
+      }
+    } catch {
+      // fail silently
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -423,12 +449,29 @@ export default function HistoryPage() {
                             </div>
                           )}
                         </div>
-                        <div className="flex-shrink-0 text-warm-sand">
-                          {isExpanded ? (
-                            <ChevronUp className="w-5 h-5" />
-                          ) : (
-                            <ChevronDown className="w-5 h-5" />
-                          )}
+                        <div className="flex-shrink-0 flex items-center gap-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDelete(session.id);
+                            }}
+                            disabled={deletingId === session.id}
+                            className="p-1.5 rounded-lg text-warm-sand hover:text-terracotta hover:bg-terracotta/10 transition-colors duration-200 disabled:opacity-50"
+                            aria-label="Delete workout"
+                          >
+                            {deletingId === session.id ? (
+                              <div className="w-4 h-4 border-2 border-terracotta border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                              <Trash2 className="w-4 h-4" />
+                            )}
+                          </button>
+                          <span className="text-warm-sand">
+                            {isExpanded ? (
+                              <ChevronUp className="w-5 h-5" />
+                            ) : (
+                              <ChevronDown className="w-5 h-5" />
+                            )}
+                          </span>
                         </div>
                       </div>
 

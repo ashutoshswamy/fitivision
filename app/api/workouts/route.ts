@@ -6,6 +6,7 @@ import {
   logMultipleExercises,
   getUserSessions,
   getUserStats,
+  deleteWorkoutSession,
 } from "@/app/lib/supabase/workouts";
 import { auth } from "@clerk/nextjs/server";
 
@@ -141,6 +142,34 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error("Workout API error:", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Internal error" },
+      { status: 500 },
+    );
+  }
+}
+
+// DELETE /api/workouts — Delete a workout session
+export async function DELETE(request: NextRequest) {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const url = new URL(request.url);
+    const sessionId = url.searchParams.get("session_id");
+    if (!sessionId) {
+      return NextResponse.json(
+        { error: "session_id required" },
+        { status: 400 },
+      );
+    }
+
+    await deleteWorkoutSession(sessionId, userId);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Workout DELETE error:", error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Internal error" },
       { status: 500 },
