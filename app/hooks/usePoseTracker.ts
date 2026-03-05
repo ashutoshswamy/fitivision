@@ -1700,7 +1700,14 @@ export const usePoseTracker = (
       let rafId: number;
       const sendFrame = async () => {
         if (!mountedRef.current || !poseRef.current) return;
-        if (videoElement.readyState >= 2) {
+        // readyState >= HTMLMediaElement.HAVE_CURRENT_DATA (2) means at
+        // least one frame is available. On some mobile browsers the video
+        // element reports readyState 0 while still providing frames via
+        // videoWidth/videoHeight, so accept either signal.
+        const hasFrame =
+          videoElement.readyState >= 2 ||
+          (videoElement.videoWidth > 0 && videoElement.videoHeight > 0);
+        if (hasFrame) {
           try {
             await poseRef.current.send({ image: videoElement });
           } catch {
