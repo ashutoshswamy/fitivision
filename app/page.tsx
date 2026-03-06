@@ -180,8 +180,8 @@ export default function Home() {
       <main className="relative min-h-[100svh] flex flex-col justify-end lg:justify-center border-b border-warm-sand/50 bg-parchment">
         <div className="absolute inset-0 w-full h-full z-0">
           <Image
-            src="/japandi.png"
-            alt="Japandi serene background"
+            src="/heropage.png"
+            alt="FitVision hero background"
             fill
             className="object-cover object-center"
             priority

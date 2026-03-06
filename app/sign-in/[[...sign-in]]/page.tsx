@@ -35,7 +35,7 @@ export default function SignInPage() {
         </Link>
       </div>
 
-      <div className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full flex flex-col items-center">
         {/* Header text */}
         <div className="text-center mb-6 sm:mb-8">
           <p className="text-[10px] tracking-[0.3em] uppercase text-terracotta font-semibold mb-2 sm:mb-3 flex items-center justify-center gap-3">
