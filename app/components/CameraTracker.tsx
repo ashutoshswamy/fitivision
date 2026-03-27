@@ -21,6 +21,21 @@ export const CameraTracker = ({
   );
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [canvasSize, setCanvasSize] = useState({ width: 640, height: 480 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent,
+        ) || window.innerWidth < 768;
+      setIsMobile(mobile);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Sync canvas dimensions to the actual video stream once it's playing.
   // onUserMedia fires before videoWidth/videoHeight are available on many
@@ -42,6 +57,8 @@ export const CameraTracker = ({
     } else {
       // Wait for the video metadata to load (mobile Safari, etc.)
       video.addEventListener("loadedmetadata", syncDimensions, { once: true });
+      // Fallback: some mobile browsers fire "playing" but not "loadedmetadata"
+      video.addEventListener("playing", syncDimensions, { once: true });
     }
   }, []);
 
@@ -49,7 +66,7 @@ export const CameraTracker = ({
     const message = err instanceof DOMException ? err.message : String(err);
     if (message.includes("NotAllowedError") || message.includes("Permission")) {
       setCameraError(
-        "Camera access was denied. Please allow camera permissions and reload.",
+        "Camera access was denied. Please allow camera permissions in your browser settings and reload.",
       );
     } else if (
       message.includes("NotFoundError") ||
@@ -62,10 +79,43 @@ export const CameraTracker = ({
       message.includes("TrackStartError")
     ) {
       setCameraError("Camera is in use by another app. Close it and reload.");
+    } else if (
+      message.includes("OverconstrainedError") ||
+      message.includes("Overconstrained")
+    ) {
+      setCameraError(
+        "Camera does not support the requested settings. Please try a different browser.",
+      );
     } else {
       setCameraError(`Camera error: ${message}`);
     }
   }, []);
+
+  // Handle orientation changes on mobile — re-sync canvas dimensions
+  useEffect(() => {
+    if (!videoElement) return;
+
+    const handleOrientationChange = () => {
+      // Small delay to let the browser settle after rotation
+      setTimeout(() => {
+        if (videoElement.videoWidth && videoElement.videoHeight) {
+          setCanvasSize({
+            width: videoElement.videoWidth,
+            height: videoElement.videoHeight,
+          });
+        }
+      }, 300);
+    };
+
+    window.addEventListener("orientationchange", handleOrientationChange);
+    // Modern browsers also fire resize on orientation change
+    window.addEventListener("resize", handleOrientationChange);
+
+    return () => {
+      window.removeEventListener("orientationchange", handleOrientationChange);
+      window.removeEventListener("resize", handleOrientationChange);
+    };
+  }, [videoElement]);
 
   const { isReady, reps, feedback, precision } = usePoseTracker(
     videoElement,
@@ -82,6 +132,19 @@ export const CameraTracker = ({
   useEffect(() => {
     onTrackerUpdateRef.current(reps, feedback, precision);
   }, [reps, feedback, precision]);
+
+  // Video constraints adapted for mobile vs desktop
+  const videoConstraints = isMobile
+    ? {
+        facingMode: "user",
+        width: { min: 240, ideal: 640 },
+        height: { min: 320, ideal: 480 },
+      }
+    : {
+        facingMode: "user",
+        width: { min: 320, ideal: 1280 },
+        height: { min: 240, ideal: 720 },
+      };
 
   return (
     <div className="relative w-full h-full flex items-center justify-center bg-charcoal rounded-3xl overflow-hidden shadow-xl border border-driftwood/40">
@@ -119,6 +182,11 @@ export const CameraTracker = ({
         <div className="absolute inset-0 flex flex-col items-center justify-center text-parchment bg-charcoal z-20">
           <div className="w-8 h-8 border-4 border-sage border-t-transparent rounded-full animate-spin mb-4"></div>
           <p className="font-medium tracking-wide">Initializing Camera...</p>
+          {isMobile && (
+            <p className="text-xs text-warm-sand/60 mt-2 px-4 text-center">
+              Please allow camera access when prompted
+            </p>
+          )}
         </div>
       )}
 
@@ -132,12 +200,9 @@ export const CameraTracker = ({
           style={{ objectFit: "cover" }}
           mirrored={false}
           audio={false}
+          muted
           playsInline
-          videoConstraints={{
-            facingMode: "user",
-            width: { min: 320, ideal: 1280 },
-            height: { min: 240, ideal: 720 },
-          }}
+          videoConstraints={videoConstraints}
         />
       )}
 

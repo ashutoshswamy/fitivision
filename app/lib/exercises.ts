@@ -93,8 +93,8 @@ export const EXERCISES: {
     difficulty: "Beginner",
     targetReps: 12,
     repConfig: {
-      up: { min: 0, max: 40 }, // Inverted for UI
-      down: { min: 150, max: 180 },
+      up: { min: 0, max: 50 },
+      down: { min: 140, max: 180 },
     },
   },
   {
@@ -148,8 +148,8 @@ export const EXERCISES: {
     difficulty: "Beginner",
     targetReps: 12,
     repConfig: {
-      up: { min: 80, max: 180 },
-      down: { min: 0, max: 30 },
+      up: { min: 70, max: 180 },
+      down: { min: 0, max: 40 },
     },
   },
   {
@@ -192,7 +192,7 @@ export const EXERCISES: {
     difficulty: "Beginner",
     targetReps: 15,
     repConfig: {
-      up: { min: 0, max: 35 },
+      up: { min: 0, max: 45 },
       down: { min: 50, max: 180 },
     },
   },
@@ -269,8 +269,8 @@ export const EXERCISES: {
     difficulty: "Beginner",
     targetReps: 12,
     repConfig: {
-      up: { min: 0, max: 40 },
-      down: { min: 150, max: 180 },
+      up: { min: 0, max: 50 },
+      down: { min: 140, max: 180 },
     },
   },
   {
@@ -280,8 +280,8 @@ export const EXERCISES: {
     difficulty: "Beginner",
     targetReps: 12,
     repConfig: {
-      up: { min: 80, max: 110 },
-      down: { min: 0, max: 30 },
+      up: { min: 70, max: 120 },
+      down: { min: 0, max: 40 },
     },
   },
   {
@@ -302,8 +302,8 @@ export const EXERCISES: {
     difficulty: "Intermediate",
     targetReps: 10,
     repConfig: {
-      up: { min: 70, max: 100 },
-      down: { min: 150, max: 180 },
+      up: { min: 50, max: 110 },
+      down: { min: 140, max: 180 },
     },
   },
   {
@@ -313,8 +313,8 @@ export const EXERCISES: {
     difficulty: "Intermediate",
     targetReps: 10,
     repConfig: {
-      up: { min: 0, max: 70 },
-      down: { min: 150, max: 180 },
+      up: { min: 0, max: 80 },
+      down: { min: 140, max: 180 },
     },
   },
   {
@@ -324,8 +324,8 @@ export const EXERCISES: {
     difficulty: "Intermediate",
     targetReps: 12,
     repConfig: {
-      up: { min: 70, max: 120 },
-      down: { min: 0, max: 30 },
+      up: { min: 60, max: 130 },
+      down: { min: 0, max: 40 },
     },
   },
   {
@@ -335,8 +335,8 @@ export const EXERCISES: {
     difficulty: "Beginner",
     targetReps: 12,
     repConfig: {
-      up: { min: 0, max: 30 },
-      down: { min: 70, max: 120 },
+      up: { min: 0, max: 40 },
+      down: { min: 60, max: 130 },
     },
   },
   {
@@ -412,8 +412,8 @@ export const EXERCISES: {
     difficulty: "Beginner",
     targetReps: 15,
     repConfig: {
-      up: { min: 100, max: 180 },
-      down: { min: 0, max: 60 },
+      up: { min: 0, max: 100 },
+      down: { min: 140, max: 180 },
     },
   },
   {
@@ -500,8 +500,8 @@ export const EXERCISES: {
     difficulty: "Beginner",
     targetReps: 20,
     repConfig: {
-      up: { min: 80, max: 1000 },
-      down: { min: 0, max: 30 },
+      up: { min: 40, max: 500 },
+      down: { min: 0, max: 15 },
     },
   },
   {
