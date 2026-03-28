@@ -44,8 +44,11 @@ export const CameraTracker = ({
     const video = webcamRef.current?.video;
     if (!video) return;
 
+    let resolved = false;
     const syncDimensions = () => {
+      if (resolved) return;
       if (video.videoWidth && video.videoHeight) {
+        resolved = true;
         setCanvasSize({ width: video.videoWidth, height: video.videoHeight });
         setVideoElement(video);
       }
@@ -54,12 +57,24 @@ export const CameraTracker = ({
     // Dimensions may already be available (desktop browsers)
     if (video.videoWidth && video.videoHeight) {
       syncDimensions();
-    } else {
-      // Wait for the video metadata to load (mobile Safari, etc.)
-      video.addEventListener("loadedmetadata", syncDimensions, { once: true });
-      // Fallback: some mobile browsers fire "playing" but not "loadedmetadata"
-      video.addEventListener("playing", syncDimensions, { once: true });
+      return;
     }
+
+    // Wait for the video metadata to load (mobile Safari, etc.)
+    video.addEventListener("loadedmetadata", syncDimensions, { once: true });
+    // Fallback: some mobile browsers fire "playing" but not "loadedmetadata"
+    video.addEventListener("playing", syncDimensions, { once: true });
+
+    // Polling fallback for mobile browsers where events fire before listeners
+    // are attached (common race condition on iOS Safari and Android Chrome).
+    let attempts = 0;
+    const poll = setInterval(() => {
+      attempts++;
+      syncDimensions();
+      if (resolved || attempts >= 50) {
+        clearInterval(poll);
+      }
+    }, 100);
   }, []);
 
   const handleCameraError = useCallback((err: string | DOMException) => {
