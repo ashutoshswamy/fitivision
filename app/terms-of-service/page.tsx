@@ -2,53 +2,62 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
 const sections = [
   {
-    title: "General Information",
+    title: "Acceptance of Terms",
     content:
-      "FitVision is an AI-powered fitness tool designed to assist with exercise form and posture tracking. The information and feedback provided by this application are for general informational and educational purposes only. FitVision is not a substitute for professional medical advice, diagnosis, or treatment.",
+      "By accessing or using FitVision, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the application. These terms constitute a legally binding agreement between you and FitVision.",
   },
   {
-    title: "Not Medical Advice",
+    title: "Description of Service",
     content:
-      "The exercise suggestions, posture corrections, and AI-generated recommendations provided through FitVision should not be considered medical advice. Always consult with a qualified healthcare professional, physician, or certified fitness trainer before starting any new exercise program, especially if you have pre-existing health conditions, injuries, or concerns about your physical capability.",
+      "FitVision is an AI-powered fitness application that uses on-device computer vision to track exercise form and provide real-time posture feedback. The service includes pose detection, exercise counting, and optional AI-generated fitness suggestions. FitVision is provided as a fitness assistance tool and is not a medical device.",
   },
   {
-    title: "Assumption of Risk",
+    title: "User Accounts",
     content:
-      "By using FitVision, you acknowledge that physical exercise carries inherent risks including but not limited to muscle strain, joint injury, and cardiovascular events. You assume full responsibility for your own safety during any exercise performed while using this application. FitVision and its creators shall not be held liable for any injury, damage, or adverse health outcome resulting from the use of this application.",
+      "To access certain features, you must create an account through our authentication provider. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to provide accurate and complete information when creating your account and to update your information as necessary.",
   },
   {
-    title: "AI Accuracy Limitations",
+    title: "Acceptable Use",
     content:
-      "FitVision uses on-device computer vision and AI language models to provide feedback. While we strive for accuracy, these technologies have inherent limitations. Pose detection may be affected by lighting conditions, camera quality, clothing, or body positioning. AI-generated exercise suggestions are general in nature and may not account for your specific health circumstances.",
+      "You agree to use FitVision only for its intended purpose of personal fitness tracking and improvement. You shall not: attempt to reverse-engineer, decompile, or extract the source code; use the service to develop competing products; share your account with others; or use the service in any way that violates applicable laws or regulations.",
   },
   {
-    title: "Privacy & Data Processing",
+    title: "Intellectual Property",
     content:
-      "Pose tracking is performed entirely on your device — no video or image data leaves your browser. However, when using the AI Suggestions feature, text-based health information you provide is sent to our AI service for processing. We do not store this information on our servers.",
+      "All content, features, and functionality of FitVision — including but not limited to the design, code, algorithms, graphics, and branding — are owned by FitVision and are protected by intellectual property laws. You are granted a limited, non-exclusive, non-transferable license to use the application for personal, non-commercial purposes.",
   },
   {
-    title: "No Guarantees",
+    title: "Limitation of Liability",
     content:
-      'FitVision does not guarantee any specific fitness results, weight loss, muscle gain, or health improvements. Individual results vary based on numerous factors including genetics, consistency, diet, and overall lifestyle. The application is provided "as is" without warranties of any kind, either express or implied.',
+      "To the maximum extent permitted by law, FitVision and its creators shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the service. This includes but is not limited to physical injury, data loss, or any damages resulting from reliance on AI-generated recommendations. Our total liability shall not exceed the amount you paid for the service.",
   },
   {
-    title: "Age Requirement",
+    title: "Disclaimer of Warranties",
     content:
-      "FitVision is intended for use by individuals aged 16 and older. If you are under 16, please use this application only under the supervision of a parent or guardian.",
+      'FitVision is provided on an "as is" and "as available" basis without warranties of any kind, either express or implied. We do not warrant that the service will be uninterrupted, error-free, or that AI-generated feedback will be accurate or suitable for your specific circumstances. You use the service at your own risk.',
   },
   {
-    title: "Changes to This Disclaimer",
+    title: "Termination",
     content:
-      "We reserve the right to update this disclaimer at any time. Continued use of FitVision after changes constitutes acceptance of the revised terms.",
+      "We reserve the right to suspend or terminate your access to FitVision at any time, with or without cause, and with or without notice. Upon termination, your right to use the service will immediately cease. You may also terminate your account at any time by contacting us.",
+  },
+  {
+    title: "Governing Law",
+    content:
+      "These Terms of Service shall be governed by and construed in accordance with applicable laws. Any disputes arising from these terms or your use of FitVision shall be resolved through good-faith negotiation before pursuing formal legal proceedings.",
+  },
+  {
+    title: "Changes to Terms",
+    content:
+      "We reserve the right to modify these Terms of Service at any time. Changes will be effective immediately upon posting to this page. Your continued use of FitVision after any modifications constitutes acceptance of the updated terms. We encourage you to review these terms periodically.",
   },
 ];
 
-export default function DisclaimerPage() {
+export default function TermsOfServicePage() {
   return (
     <div className="min-h-screen bg-parchment text-charcoal font-sans selection:bg-terracotta selection:text-parchment">
       {/* Navigation */}
@@ -112,9 +121,9 @@ export default function DisclaimerPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-3xl sm:text-4xl md:text-6xl font-light tracking-tighter text-charcoal leading-[1] mb-4 sm:mb-6"
           >
-            Disclaimer &{" "}
+            Terms of{" "}
             <span className="font-medium text-muted-clay italic">
-              terms of use.
+              service.
             </span>
           </motion.h1>
           <motion.p
@@ -123,7 +132,7 @@ export default function DisclaimerPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-base sm:text-lg text-driftwood font-light max-w-lg leading-relaxed"
           >
-            Please read the following carefully before using FitVision.
+            The terms and conditions governing your use of FitVision.
           </motion.p>
         </div>
       </section>
@@ -192,12 +201,6 @@ export default function DisclaimerPage() {
               className="text-[10px] tracking-[0.2em] uppercase text-sage hover:text-terracotta transition-colors duration-300"
             >
               Privacy
-            </Link>
-            <Link
-              href="/terms-of-service"
-              className="text-[10px] tracking-[0.2em] uppercase text-sage hover:text-terracotta transition-colors duration-300"
-            >
-              Terms
             </Link>
             <Link
               href="/disclaimer"

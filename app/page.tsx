@@ -778,6 +778,18 @@ export default function Home() {
                 Philosophy
               </Link>
               <Link
+                href="/privacy-policy"
+                className="text-[10px] tracking-[0.2em] uppercase text-sage hover:text-terracotta transition-colors duration-300"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms-of-service"
+                className="text-[10px] tracking-[0.2em] uppercase text-sage hover:text-terracotta transition-colors duration-300"
+              >
+                Terms of Service
+              </Link>
+              <Link
                 href="/disclaimer"
                 className="text-[10px] tracking-[0.2em] uppercase text-sage hover:text-terracotta transition-colors duration-300"
               >

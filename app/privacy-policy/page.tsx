@@ -2,53 +2,52 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
 const sections = [
   {
-    title: "General Information",
+    title: "Information We Collect",
     content:
-      "FitVision is an AI-powered fitness tool designed to assist with exercise form and posture tracking. The information and feedback provided by this application are for general informational and educational purposes only. FitVision is not a substitute for professional medical advice, diagnosis, or treatment.",
+      "FitVision is designed with privacy at its core. Pose tracking and exercise detection are performed entirely on your device using on-device AI — no video, image, or body-tracking data is ever transmitted to our servers. When you use the AI Suggestions feature, text-based health information you voluntarily provide is sent to our AI service for processing. We collect basic account information (email, name) through our authentication provider, Clerk, when you create an account.",
   },
   {
-    title: "Not Medical Advice",
+    title: "How We Use Your Information",
     content:
-      "The exercise suggestions, posture corrections, and AI-generated recommendations provided through FitVision should not be considered medical advice. Always consult with a qualified healthcare professional, physician, or certified fitness trainer before starting any new exercise program, especially if you have pre-existing health conditions, injuries, or concerns about your physical capability.",
+      "Account information is used solely to authenticate you and provide access to your workout history. Text-based health inputs submitted to the AI Suggestions feature are processed in real-time to generate personalized recommendations and are not stored on our servers after processing. Workout statistics (exercise counts, session duration) may be stored in our database to provide you with progress tracking across sessions.",
   },
   {
-    title: "Assumption of Risk",
+    title: "On-Device Processing",
     content:
-      "By using FitVision, you acknowledge that physical exercise carries inherent risks including but not limited to muscle strain, joint injury, and cardiovascular events. You assume full responsibility for your own safety during any exercise performed while using this application. FitVision and its creators shall not be held liable for any injury, damage, or adverse health outcome resulting from the use of this application.",
+      "FitVision uses MediaPipe, a browser-based machine learning framework, to perform all pose detection and exercise tracking directly on your device. Your camera feed is never recorded, stored, or transmitted. All visual processing happens locally in your browser, ensuring your physical data remains completely private.",
   },
   {
-    title: "AI Accuracy Limitations",
+    title: "Third-Party Services",
     content:
-      "FitVision uses on-device computer vision and AI language models to provide feedback. While we strive for accuracy, these technologies have inherent limitations. Pose detection may be affected by lighting conditions, camera quality, clothing, or body positioning. AI-generated exercise suggestions are general in nature and may not account for your specific health circumstances.",
+      "We use the following third-party services: Clerk for authentication, Supabase for database storage, and Google Generative AI for the AI Suggestions feature. Each of these services has their own privacy policies. We recommend reviewing their respective privacy practices. We do not sell, trade, or share your personal information with third parties for marketing purposes.",
   },
   {
-    title: "Privacy & Data Processing",
+    title: "Cookies & Local Storage",
     content:
-      "Pose tracking is performed entirely on your device — no video or image data leaves your browser. However, when using the AI Suggestions feature, text-based health information you provide is sent to our AI service for processing. We do not store this information on our servers.",
+      "FitVision uses essential cookies and local storage for authentication and session management. We do not use tracking cookies or analytics that monitor your browsing behavior across other websites. Any data stored locally in your browser is used solely to improve your experience within the application.",
   },
   {
-    title: "No Guarantees",
+    title: "Data Retention & Deletion",
     content:
-      'FitVision does not guarantee any specific fitness results, weight loss, muscle gain, or health improvements. Individual results vary based on numerous factors including genetics, consistency, diet, and overall lifestyle. The application is provided "as is" without warranties of any kind, either express or implied.',
+      "You may request deletion of your account and associated data at any time by contacting us. Workout data stored in our database will be permanently deleted upon account deletion. Since pose tracking data never leaves your device, there is no server-side visual data to delete.",
   },
   {
-    title: "Age Requirement",
+    title: "Children's Privacy",
     content:
-      "FitVision is intended for use by individuals aged 16 and older. If you are under 16, please use this application only under the supervision of a parent or guardian.",
+      "FitVision is intended for users aged 16 and older. We do not knowingly collect personal information from children under 16. If you are a parent or guardian and believe your child has provided us with personal information, please contact us so we can take appropriate action.",
   },
   {
-    title: "Changes to This Disclaimer",
+    title: "Changes to This Policy",
     content:
-      "We reserve the right to update this disclaimer at any time. Continued use of FitVision after changes constitutes acceptance of the revised terms.",
+      "We may update this privacy policy from time to time. Any changes will be reflected on this page with an updated revision date. Continued use of FitVision after changes constitutes acceptance of the revised policy.",
   },
 ];
 
-export default function DisclaimerPage() {
+export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-parchment text-charcoal font-sans selection:bg-terracotta selection:text-parchment">
       {/* Navigation */}
@@ -112,9 +111,9 @@ export default function DisclaimerPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-3xl sm:text-4xl md:text-6xl font-light tracking-tighter text-charcoal leading-[1] mb-4 sm:mb-6"
           >
-            Disclaimer &{" "}
+            Privacy{" "}
             <span className="font-medium text-muted-clay italic">
-              terms of use.
+              policy.
             </span>
           </motion.h1>
           <motion.p
@@ -123,7 +122,7 @@ export default function DisclaimerPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-base sm:text-lg text-driftwood font-light max-w-lg leading-relaxed"
           >
-            Please read the following carefully before using FitVision.
+            Your privacy matters. Here&apos;s how FitVision handles your data.
           </motion.p>
         </div>
       </section>
@@ -187,12 +186,6 @@ export default function DisclaimerPage() {
             movement.
           </p>
           <div className="flex items-center gap-6">
-            <Link
-              href="/privacy-policy"
-              className="text-[10px] tracking-[0.2em] uppercase text-sage hover:text-terracotta transition-colors duration-300"
-            >
-              Privacy
-            </Link>
             <Link
               href="/terms-of-service"
               className="text-[10px] tracking-[0.2em] uppercase text-sage hover:text-terracotta transition-colors duration-300"
