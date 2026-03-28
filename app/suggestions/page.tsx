@@ -9,7 +9,6 @@ import {
   ArrowLeft,
   Sparkles,
   LogIn,
-  LogOut,
   Loader2,
   Dumbbell,
   AlertTriangle,
@@ -25,7 +24,7 @@ import {
   Star,
   BookOpen,
 } from "lucide-react";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser, UserButton } from "@clerk/nextjs";
 
 interface Exercise {
   name: string;
@@ -67,8 +66,6 @@ const genderOptions = ["Male", "Female", "Non-binary", "Prefer not to say"];
 
 export default function SuggestionsPage() {
   const { isSignedIn } = useUser();
-  const { signOut } = useClerk();
-
   const [formData, setFormData] = useState({
     age: "",
     gender: "",
@@ -226,10 +223,6 @@ export default function SuggestionsPage() {
     }
   };
 
-  const handleLogout = async () => {
-    await signOut();
-  };
-
   return (
     <div className="min-h-screen bg-parchment text-charcoal font-sans selection:bg-terracotta selection:text-parchment">
       {/* Navigation */}
@@ -272,13 +265,13 @@ export default function SuggestionsPage() {
               Method
             </Link>
             {isSignedIn ? (
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors duration-300"
-              >
-                <LogOut className="w-4 h-4" />
-                Logout
-              </button>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-8 h-8",
+                  },
+                }}
+              />
             ) : (
               <Link
                 href="/sign-in"
@@ -334,15 +327,13 @@ export default function SuggestionsPage() {
                 </Link>
                 <div className="pt-2 border-t border-warm-sand/30">
                   {isSignedIn ? (
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setMobileMenuOpen(false);
+                    <UserButton
+                      appearance={{
+                        elements: {
+                          avatarBox: "w-8 h-8",
+                        },
                       }}
-                      className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors py-1"
-                    >
-                      <LogOut className="w-4 h-4" /> Logout
-                    </button>
+                    />
                   ) : (
                     <Link
                       href="/sign-in"

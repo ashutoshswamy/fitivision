@@ -8,7 +8,6 @@ import {
   Sparkles,
   Dumbbell,
   ArrowRight,
-  LogOut,
   Menu,
   X,
   Activity,
@@ -21,7 +20,7 @@ import {
   BookOpen,
   Loader2,
 } from "lucide-react";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser, UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 interface UserStats {
@@ -49,7 +48,6 @@ const fadeUp = {
 
 export default function DashboardPage() {
   const { isSignedIn, user, isLoaded } = useUser();
-  const { signOut } = useClerk();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [stats, setStats] = useState<UserStats | null>(null);
@@ -169,15 +167,13 @@ export default function DashboardPage() {
             >
               Method
             </Link>
-            <button
-              onClick={async () => {
-                await signOut();
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-8 h-8",
+                },
               }}
-              className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors duration-300"
-            >
-              <LogOut className="w-4 h-4" />
-              Logout
-            </button>
+            />
           </div>
 
           <button
@@ -225,15 +221,13 @@ export default function DashboardPage() {
                   Method
                 </Link>
                 <div className="pt-2 border-t border-warm-sand/30">
-                  <button
-                    onClick={() => {
-                      signOut();
-                      setMobileMenuOpen(false);
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        avatarBox: "w-8 h-8",
+                      },
                     }}
-                    className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors py-1"
-                  >
-                    <LogOut className="w-4 h-4" /> Logout
-                  </button>
+                  />
                 </div>
               </div>
             </motion.div>

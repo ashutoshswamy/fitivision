@@ -15,7 +15,6 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   LogIn,
-  LogOut,
   Menu,
   X,
   ChevronDown,
@@ -29,7 +28,7 @@ import {
   PartyPopper,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser, UserButton } from "@clerk/nextjs";
 
 // ─── Plan-related types ─────────────────────────────────────
 interface PlanExercise {
@@ -231,8 +230,6 @@ function TrackerContent() {
   const [saved, setSaved] = useState(false);
   const sessionStartRef = useRef(new Date().toISOString());
   const { isSignedIn } = useUser();
-  const { signOut } = useClerk();
-
   // ─── Plan mode state ───────────────────────────────────────
   const [planExercises, setPlanExercises] = useState<PlanExerciseEntry[]>([]);
   const [planExerciseIndex, setPlanExerciseIndex] = useState(0);
@@ -404,14 +401,13 @@ function TrackerContent() {
             Method
           </Link>
           {isSignedIn ? (
-            <button
-              onClick={async () => {
-                await signOut();
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-8 h-8",
+                },
               }}
-              className="flex items-center gap-1.5 text-warm-sand hover:text-parchment transition-colors"
-            >
-              <LogOut className="w-4 h-4" /> Logout
-            </button>
+            />
           ) : (
             <Link
               href="/sign-in"
@@ -467,15 +463,13 @@ function TrackerContent() {
                 Method
               </Link>
               {isSignedIn ? (
-                <button
-                  onClick={async () => {
-                    await signOut();
-                    setMobileMenuOpen(false);
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-8 h-8",
+                    },
                   }}
-                  className="flex items-center gap-1.5 text-warm-sand hover:text-parchment transition-colors py-1"
-                >
-                  <LogOut className="w-4 h-4" /> Logout
-                </button>
+                />
               ) : (
                 <Link
                   href="/sign-in"

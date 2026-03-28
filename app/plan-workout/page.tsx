@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   ArrowLeft,
-  LogOut,
   Menu,
   X,
   Save,
@@ -27,7 +26,7 @@ import {
   History,
   SkipForward,
 } from "lucide-react";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser, UserButton } from "@clerk/nextjs";
 import { ExerciseType, EXERCISES } from "../lib/exercises";
 
 interface Exercise {
@@ -252,8 +251,6 @@ function PlanWorkoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { isSignedIn, isLoaded } = useUser();
-  const { signOut } = useClerk();
-
   const planIdParam = searchParams.get("plan_id");
   const dayParam = searchParams.get("day"); // day index override
 
@@ -490,14 +487,13 @@ function PlanWorkoutContent() {
             >
               Method
             </Link>
-            <button
-              onClick={async () => {
-                await signOut();
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-8 h-8",
+                },
               }}
-              className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors duration-300"
-            >
-              <LogOut className="w-4 h-4" /> Logout
-            </button>
+            />
           </div>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -543,15 +539,13 @@ function PlanWorkoutContent() {
                   Method
                 </Link>
                 <div className="pt-2 border-t border-warm-sand/30">
-                  <button
-                    onClick={() => {
-                      signOut();
-                      setMobileMenuOpen(false);
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        avatarBox: "w-8 h-8",
+                      },
                     }}
-                    className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors py-1"
-                  >
-                    <LogOut className="w-4 h-4" /> Logout
-                  </button>
+                  />
                 </div>
               </div>
             </motion.div>

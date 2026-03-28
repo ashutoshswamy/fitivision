@@ -6,7 +6,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
-  LogOut,
   Menu,
   X,
   History,
@@ -20,7 +19,7 @@ import {
   Flame,
   Trash2,
 } from "lucide-react";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser, UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 interface WorkoutExercise {
@@ -81,7 +80,6 @@ function formatTime(dateStr: string): string {
 
 export default function HistoryPage() {
   const { isSignedIn, isLoaded } = useUser();
-  const { signOut } = useClerk();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [sessions, setSessions] = useState<WorkoutSession[]>([]);
@@ -195,14 +193,13 @@ export default function HistoryPage() {
             >
               Method
             </Link>
-            <button
-              onClick={async () => {
-                await signOut();
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-8 h-8",
+                },
               }}
-              className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors duration-300"
-            >
-              <LogOut className="w-4 h-4" /> Logout
-            </button>
+            />
           </div>
 
           <button
@@ -250,15 +247,13 @@ export default function HistoryPage() {
                   Method
                 </Link>
                 <div className="pt-2 border-t border-warm-sand/30">
-                  <button
-                    onClick={() => {
-                      signOut();
-                      setMobileMenuOpen(false);
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        avatarBox: "w-8 h-8",
+                      },
                     }}
-                    className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors py-1"
-                  >
-                    <LogOut className="w-4 h-4" /> Logout
-                  </button>
+                  />
                 </div>
               </div>
             </motion.div>

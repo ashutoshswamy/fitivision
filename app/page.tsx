@@ -14,7 +14,6 @@ import {
   Target,
   LogIn,
   UserPlus,
-  LogOut,
   Menu,
   X,
   Eye,
@@ -22,7 +21,7 @@ import {
   Lock,
   ChevronRight,
 } from "lucide-react";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser, UserButton } from "@clerk/nextjs";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -50,15 +49,10 @@ const marqueeItems = [
 
 export default function Home() {
   const { isSignedIn } = useUser();
-  const { signOut } = useClerk();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.15], [1, 0.97]);
-
-  const handleLogout = async () => {
-    await signOut();
-  };
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-parchment text-charcoal font-sans selection:bg-terracotta selection:text-parchment">
@@ -107,13 +101,13 @@ export default function Home() {
               Method
             </Link>
             {isSignedIn ? (
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors duration-300"
-              >
-                <LogOut className="w-4 h-4" />
-                Logout
-              </button>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-8 h-8",
+                  },
+                }}
+              />
             ) : (
               <Link
                 href="/sign-in"
@@ -173,15 +167,13 @@ export default function Home() {
                 </Link>
                 <div className="pt-2 border-t border-warm-sand/30">
                   {isSignedIn ? (
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setMobileMenuOpen(false);
+                    <UserButton
+                      appearance={{
+                        elements: {
+                          avatarBox: "w-8 h-8",
+                        },
                       }}
-                      className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors py-1"
-                    >
-                      <LogOut className="w-4 h-4" /> Logout
-                    </button>
+                    />
                   ) : (
                     <Link
                       href="/sign-in"

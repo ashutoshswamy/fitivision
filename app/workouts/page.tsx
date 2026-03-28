@@ -4,9 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { EXERCISES } from "../lib/exercises";
-import { ArrowRight, LogIn, LogOut, Menu, X, History } from "lucide-react";
+import { ArrowRight, LogIn, Menu, X, History } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useUser, useClerk } from "@clerk/nextjs";
+import { useUser, UserButton } from "@clerk/nextjs";
 
 const DifficultyBadge = ({
   level,
@@ -29,12 +29,7 @@ const DifficultyBadge = ({
 
 export default function WorkoutsPage() {
   const { isSignedIn } = useUser();
-  const { signOut } = useClerk();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const handleLogout = async () => {
-    await signOut();
-  };
 
   return (
     <div className="min-h-screen bg-parchment text-charcoal font-sans selection:bg-terracotta selection:text-parchment">
@@ -78,13 +73,13 @@ export default function WorkoutsPage() {
               Method
             </Link>
             {isSignedIn ? (
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors duration-300"
-              >
-                <LogOut className="w-4 h-4" />
-                Logout
-              </button>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-8 h-8",
+                  },
+                }}
+              />
             ) : (
               <Link
                 href="/sign-in"
@@ -140,15 +135,13 @@ export default function WorkoutsPage() {
                 </Link>
                 <div className="pt-2 border-t border-warm-sand/30">
                   {isSignedIn ? (
-                    <button
-                      onClick={() => {
-                        handleLogout();
-                        setMobileMenuOpen(false);
+                    <UserButton
+                      appearance={{
+                        elements: {
+                          avatarBox: "w-8 h-8",
+                        },
                       }}
-                      className="flex items-center gap-2 text-driftwood hover:text-terracotta transition-colors py-1"
-                    >
-                      <LogOut className="w-4 h-4" /> Logout
-                    </button>
+                    />
                   ) : (
                     <Link
                       href="/sign-in"
