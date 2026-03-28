@@ -124,7 +124,6 @@ function getPostureChecks(exercise: ExerciseType): PostureCheck[] {
       const lVis = (lS.visibility + lH.visibility) / 2;
       const rVis = (rS.visibility + rH.visibility) / 2;
       if (lVis < 0.5 && rVis < 0.5) return null;
-      const side = lVis > rVis ? { s: lS, h: lH } : { s: rS, h: rH };
       // If shoulder drops too far below hip level when hinging
       // This checks for excessive rounding
       return null;
@@ -679,8 +678,6 @@ export const usePoseTracker = (
               const lA = landmarks[27]; const rA = landmarks[28];
               const lH = landmarks[23]; const rH = landmarks[24];
               if (lA.visibility > 0.5 && rA.visibility > 0.5 && lH.visibility > 0.5 && rH.visibility > 0.5) {
-                const hipY = (lH.y + rH.y) / 2;
-                const ankleY = (lA.y + rA.y) / 2;
                 const legsAngle = calculateAngle(lS, lH, landmarks[25]);
                 if (legsAngle > 160) fb = "Lean back more, keep core engaged";
               }
@@ -773,10 +770,8 @@ export const usePoseTracker = (
               }
               // Posture: keep lower back pressed down
               const lH = landmarks[23]; const rH = landmarks[24];
-              const lS = landmarks[11]; const rS = landmarks[12];
+              const lS = landmarks[11];
               if (lH.visibility > 0.5 && rH.visibility > 0.5 && lS.visibility > 0.5) {
-                const hipHeight = (lH.y + rH.y) / 2;
-                const shoulderHeight = (lS.y + rS.y) / 2;
                 const bodyAngle = calculateAngle(lS, lH, lA);
                 if (bodyAngle > 170) fb = "Lift your legs off the floor";
               }

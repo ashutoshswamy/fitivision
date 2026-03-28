@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { ExerciseType, EXERCISES } from "../lib/exercises";
 
 interface RomArcProps {
@@ -81,11 +80,7 @@ export function HUD({
   phaseConfig,
 }: HUDProps) {
   const exercise = EXERCISES.find((e) => e.type === exerciseType);
-  const [pulseKey, setPulseKey] = useState(0);
-
-  useEffect(() => {
-    if (repCount > 0) setPulseKey((k) => k + 1);
-  }, [repCount]);
+  const pulseKey = repCount;
 
   if (!exercise) return null;
 

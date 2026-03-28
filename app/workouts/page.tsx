@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { EXERCISES } from "../lib/exercises";
-import { ArrowRight, LogIn, Menu, X, History } from "lucide-react";
+import { ArrowRight, LogIn, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser, UserButton } from "@clerk/nextjs";
 

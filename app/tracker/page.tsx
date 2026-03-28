@@ -23,7 +23,6 @@ import {
   Check,
   Plus,
   Minus,
-  History,
   SkipForward,
   PartyPopper,
 } from "lucide-react";
