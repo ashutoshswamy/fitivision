@@ -20,6 +20,9 @@ import {
   Zap,
   Lock,
   ChevronRight,
+  UtensilsCrossed,
+  Salad,
+  ClipboardList,
 } from "lucide-react";
 import { useUser, UserButton } from "@clerk/nextjs";
 
@@ -45,6 +48,8 @@ const marqueeItems = [
   "No Hardware Needed",
   "Posture Correction",
   "Rep Counting",
+  "AI Meal Planning",
+  "Smart Nutrition",
 ];
 
 export default function Home() {
@@ -99,6 +104,12 @@ export default function Home() {
               className="text-driftwood hover:text-charcoal transition-colors duration-300"
             >
               Method
+            </Link>
+            <Link
+              href="/meal-prep"
+              className="text-driftwood hover:text-charcoal transition-colors duration-300"
+            >
+              Meal Prep
             </Link>
             {isSignedIn ? (
               <UserButton
@@ -164,6 +175,13 @@ export default function Home() {
                   className="text-driftwood hover:text-charcoal transition-colors py-1"
                 >
                   Method
+                </Link>
+                <Link
+                  href="/meal-prep"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-driftwood hover:text-charcoal transition-colors py-1"
+                >
+                  Meal Prep
                 </Link>
                 <div className="pt-2 border-t border-warm-sand/30">
                   {isSignedIn ? (
@@ -685,6 +703,117 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Meal Planning Section */}
+      <section className="relative z-10 py-20 sm:py-28 bg-parchment overflow-hidden">
+        <div className="max-w-[75rem] mx-auto px-6">
+          <motion.div
+            className="relative bg-gradient-to-br from-charcoal via-charcoal to-charcoal/95 rounded-3xl border border-warm-sand/20 p-8 sm:p-12 md:p-16 overflow-hidden"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7 }}
+          >
+            {/* Background decoration */}
+            <div className="absolute top-0 left-0 w-80 h-80 bg-sage/[0.06] rounded-full blur-[100px]" />
+            <div className="absolute bottom-0 right-0 w-64 h-64 bg-terracotta/[0.05] rounded-full blur-[80px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.015] text-[8rem] sm:text-[12rem] font-bold text-parchment pointer-events-none tracking-tighter">
+              NOURISH
+            </div>
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div className="flex items-center gap-3 mb-6">
+                    <span className="text-[10px] text-terracotta tracking-[0.3em] font-semibold uppercase">
+                      New Feature
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta/15 text-terracotta text-[9px] font-semibold tracking-wider uppercase">
+                      <span className="w-1.5 h-1.5 rounded-full bg-terracotta animate-pulse" />
+                      Just Launched
+                    </span>
+                  </div>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tighter text-parchment mb-6 leading-[1.1]">
+                    AI-powered
+                    <br />
+                    <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-sage to-warm-sand italic pr-1">
+                      meal planning.
+                    </span>
+                  </h2>
+                  <p className="text-warm-sand font-light text-base leading-relaxed mb-8 max-w-md">
+                    Fuel your training with personalized meal plans crafted by AI.
+                    Get custom recipes, grocery lists, and nutritional breakdowns
+                    tailored to your fitness goals.
+                  </p>
+                  <Link
+                    href={isSignedIn ? "/meal-prep" : "/sign-in"}
+                    className="group inline-flex items-center gap-3 px-7 py-4 bg-parchment text-charcoal rounded-full text-xs font-semibold tracking-[0.15em] uppercase hover:bg-terracotta hover:text-parchment transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-terracotta/20"
+                  >
+                    <UtensilsCrossed className="w-4 h-4" />
+                    Explore Meal Plans
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </motion.div>
+              </div>
+
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={stagger}
+              >
+                {[
+                  {
+                    icon: <Sparkles className="w-6 h-6" />,
+                    title: "AI-Generated Plans",
+                    desc: "Custom meal plans based on your dietary preferences and goals",
+                  },
+                  {
+                    icon: <Salad className="w-6 h-6" />,
+                    title: "Smart Recipes",
+                    desc: "Detailed recipes with step-by-step prep instructions",
+                  },
+                  {
+                    icon: <ClipboardList className="w-6 h-6" />,
+                    title: "Grocery Lists",
+                    desc: "Auto-generated shopping lists from your meal plans",
+                  },
+                  {
+                    icon: <Target className="w-6 h-6" />,
+                    title: "Macro Tracking",
+                    desc: "Calories, protein, carbs, and fats calculated per meal",
+                  },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    variants={fadeUp}
+                    custom={i}
+                    className="bg-parchment/[0.06] backdrop-blur-sm p-7 rounded-2xl border border-parchment/[0.08] flex flex-col gap-4 hover:bg-parchment/[0.1] hover:border-parchment/[0.15] transition-all duration-500 group"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-parchment/[0.08] flex items-center justify-center text-sage group-hover:bg-sage/20 transition-colors duration-300">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium tracking-wide text-parchment block mb-1">
+                        {item.title}
+                      </span>
+                      <span className="text-xs text-warm-sand/50 font-light leading-relaxed">
+                        {item.desc}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       {!isSignedIn && (
         <motion.section
@@ -768,6 +897,12 @@ export default function Home() {
                 className="text-[10px] tracking-[0.2em] uppercase text-driftwood hover:text-charcoal transition-colors duration-300"
               >
                 Philosophy
+              </Link>
+              <Link
+                href="/meal-prep"
+                className="text-[10px] tracking-[0.2em] uppercase text-driftwood hover:text-charcoal transition-colors duration-300"
+              >
+                Meal Prep
               </Link>
               <Link
                 href="/privacy-policy"

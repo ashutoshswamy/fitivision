@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
         const plan = await saveAIPlan({
           user_id: userId,
           name: body.name || "Untitled Plan",
+          plan_type: body.plan_type || "workout",
           form_data: body.form_data,
           plan_data: body.plan_data,
           summary: body.summary || null,
@@ -92,7 +93,8 @@ export async function GET(request: NextRequest) {
     }
 
     const limit = parseInt(url.searchParams.get("limit") || "10");
-    const plans = await getUserAIPlans(userId, limit);
+    const planType = (url.searchParams.get("plan_type") || "workout") as "workout" | "meal";
+    const plans = await getUserAIPlans(userId, limit, planType);
     return NextResponse.json({ plans });
   } catch (error) {
     console.error("Plans API error:", error);

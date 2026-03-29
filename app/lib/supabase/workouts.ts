@@ -201,11 +201,12 @@ export async function toggleActivePlan(
   planId: string,
   userId: string,
 ): Promise<AIPlan> {
-  // Deactivate all plans for this user first
+  // Deactivate all workout plans for this user first
   await supabase
     .from("ai_plans")
     .update({ is_active: false })
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .eq("plan_type", "workout");
 
   // Activate the selected plan
   const { data, error } = await supabase
@@ -226,6 +227,7 @@ export async function getActivePlan(userId: string): Promise<AIPlan | null> {
     .select("*")
     .eq("user_id", userId)
     .eq("is_active", true)
+    .eq("plan_type", "workout")
     .single();
 
   if (error && error.code !== "PGRST116") {
@@ -237,11 +239,13 @@ export async function getActivePlan(userId: string): Promise<AIPlan | null> {
 export async function getUserAIPlans(
   userId: string,
   limit = 10,
+  planType: "workout" | "meal" = "workout",
 ): Promise<AIPlan[]> {
   const { data, error } = await supabase
     .from("ai_plans")
     .select("*")
     .eq("user_id", userId)
+    .eq("plan_type", planType)
     .order("created_at", { ascending: false })
     .limit(limit);
 

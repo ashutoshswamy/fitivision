@@ -47,6 +47,7 @@ export interface AIPlan {
   id: string;
   user_id: string;
   name: string;
+  plan_type: "workout" | "meal";
   form_data: Record<string, unknown>;
   plan_data: Record<string, unknown>;
   summary: string | null;
